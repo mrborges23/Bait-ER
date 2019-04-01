@@ -34,33 +34,24 @@ plot_paths <- function(N,paths,times){
 
 plot_posterior_sigma <- function(post_sigma){
   
-  poly_coef <- post_sigma$polynomial_coefficients
-  mean      <- post_sigma$mean
-  sigma_sd  <- (post_sigma$q95-mean)/2
-  sigma     <- seq(mean-7*sigma_sd,mean+7*sigma_sd,length.out=200)
-  prob_post <- exp(poly_coef[10]+
-                     poly_coef[9]*sigma+
-                     poly_coef[8]*sigma^2+
-                     poly_coef[7]*sigma^3+
-                     poly_coef[6]*sigma^4+
-                     poly_coef[5]*sigma^5+
-                     poly_coef[4]*sigma^6+
-                     poly_coef[3]*sigma^7+
-                     poly_coef[2]*sigma^8+
-                     poly_coef[1]*sigma^9)
-  
-  # Plotting the posterior disitrbution of sigma
-  plot(sigma,prob_post,ylim=c(min(prob_post),max(prob_post)*1.1),type="l",ylab="posterior probabilities",col="gray",main="Posterior distribution of sigma")
-  abline(v=0,col="blue",lty=2)
-  
   # Calculating some summary statistics
   mean   <- post_sigma$mean
   median <- post_sigma$median
   q05    <- post_sigma$q05
   q95    <- post_sigma$q95
   
+  alpha  <- post_sigma$alpha
+  beta   <- post_sigma$beta
+  
+  x <- seq(qgamma(0.00001,shape=alpha,rate=beta),qgamma(0.99999,shape=alpha,rate=beta),length.out=500)
+  y <- dgamma(x,shape=alpha,rate=beta)
+  
+  # Plotting the posterior disitrbution of sigma
+  plot(x-1,y,type="l",ylab="posterior probabilities",col="gray",main="Posterior distribution of sigma",xlab="sigma")
+  abline(v=0,col="blue",lty=2)
+
   # Plotting the summary statistics
-  y_coordinate <- min(prob_post) + (max(prob_post)-min(prob_post))/2
+  y_coordinate <- min(y) + (max(y)-min(y))/2
   segments(q05 ,y_coordinate,q95,y_coordinate,col="red")
   
   segments(q05 ,y_coordinate,q95,y_coordinate,col="red")
@@ -70,14 +61,13 @@ plot_posterior_sigma <- function(post_sigma){
   points(median,y_coordinate,col="red",pch=4)
   abline(v=mean ,lty=2)
   
-  legend(x=min(sigma),y=max(prob_post)*1.1, legend="credibility interval 95%",
+  legend(x=min(sigma),y=max(y)*1.0, legend="credibility interval 95%",
          col="red", lty=1, cex=0.8,bty="n")
   
-  legend(x=min(sigma),y=max(prob_post)*1.05, legend="mean sigma",
+  legend(x=min(sigma),y=max(y)*0.95, legend="mean sigma",
          col="black", lty=2, cex=0.8,bty="n")
   
-  legend(x=min(sigma),y=max(prob_post)*1, legend="sigma = 0",
-         col="blue", lty=2, cex=0.8,bty="n")
+
   
 }
 

@@ -16,10 +16,10 @@ using namespace Rcpp;
 */
 
 // [[Rcpp::export]]
-double log_posterior(double N, double sigma, mat trajectories_matrix,int number_replicates, int number_time_points, vec time, double prior_rate) {
+double log_posterior(double N, double sigma, mat trajectories_matrix,int number_replicates, int number_time_points, vec time, vec prior_parameters) {
   
   // adds the log likelihood to the log prior
-  double log_total = -sigma*prior_rate + log_likelihood_trajectories(N,sigma,number_replicates,number_time_points,time,trajectories_matrix);
+  double log_total = R::dgamma(1.0+sigma, prior_parameters(0), prior_parameters(1), 1) + log_likelihood_trajectories(N,sigma,number_replicates,number_time_points,time,trajectories_matrix);
   return log_total;
   
 }
