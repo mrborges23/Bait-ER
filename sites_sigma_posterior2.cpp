@@ -19,7 +19,7 @@ Future plans: add a parallel for from Rcpp parallel
 */
 
 // [[Rcpp::export]]
-mat sites_sigma_posterior2(List sync_file, int initial_site, int final_site, string output_file,  double N, vec time, int number_time_points, int number_replicates, double prior_rate) {
+mat sites_sigma_posterior2(List sync_file, int initial_site, int final_site, string output_file,  double N, vec time, int number_time_points, int number_replicates, vec prior_parameters) {
   
   ofstream file_output;
   file_output.open(output_file);
@@ -54,7 +54,7 @@ mat sites_sigma_posterior2(List sync_file, int initial_site, int final_site, str
 
     // calculates summary statistics from the posterior of sigma  
     int j = i-initial_site+1;
-    output.row(j) = sigma_posterior2(N,time,number_time_points,number_replicates,trajectories_matrix,prior_rate);
+    output.row(j) = sigma_posterior2(N,time,number_time_points,number_replicates,trajectories_matrix,prior_parameters);
     
     file_output << chr(i)       << "\t" << pos(i)       << "\t" << ref(i)       << "\t" << a1(i)        << "\t"<< a2(i)         << "\t"
                 << output(j,0)  << "\t" << output(j,1)  << "\t" << output(j,2)  << "\t" << output(j,3)  << "\t" << output(j,4)  << "\t"

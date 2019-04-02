@@ -1,20 +1,19 @@
 // [[Rcpp::depends(RcppArmadillo)]]
 #include <RcppArmadillo.h>
 #include <log_posterior.cpp>
-#include <quantile_interpolation.cpp>
 
 using namespace arma;
 using namespace Rcpp;
 
 /*
 
-Calculates a bayes factor of sigma<0 and sigma>0
+Calculates a bayes factor against sigma=0
 Constitutes a test of neutrality
 
 */
 
 // [[Rcpp::export]]
-List sigma_posterior(double N, vec time, int number_time_points, int number_replicates,mat trajectories_matrix, vec prior_parameters) {
+vec sigma_posterior2(double N, vec time, int number_time_points, int number_replicates,mat trajectories_matrix, vec prior_parameters) {
   
   // calculates increments
   mat increments; 
@@ -39,7 +38,7 @@ List sigma_posterior(double N, vec time, int number_time_points, int number_repl
   // calculates the empirical average and sd of sigma
   double m_sigma  = mean(mean(increments));
   double sd_sigma = mean(mean(abs(increments-m_sigma)));
-  
+
   // fit tht gamma distribution
   vec grid;
   grid << m_sigma-2*sd_sigma << m_sigma-sd_sigma << m_sigma << m_sigma+sd_sigma << m_sigma+2*sd_sigma ;
@@ -74,17 +73,19 @@ List sigma_posterior(double N, vec time, int number_time_points, int number_repl
   double q05               = R::qgamma(0.05,alpha,1/beta,1,0)-1;
   double q95               = R::qgamma(0.95,alpha,1/beta,1,0)-1;
   double log_bayes_factor  = R::pgamma(1,alpha,1/beta,0,1) - R::pgamma(1,alpha,1/beta,1,1);
- 
-  // exports posterior statistics as a list
-  return List::create(Named("mean")              = mean,
-                      Named("variance")          = var,
-                      Named("median")            = median,
-                      Named("q05")               = q05,
-                      Named("q95")               = q95,
-                      Named("log_bayes_factor")  = log_bayes_factor,
-                      Named("alpha")             = alpha,
-                      Named("beta")              = beta );
   
+  // exports posterior statistics as a vector
+  vec output(8);
+  output(0) = mean;
+  output(1) = var;
+  output(2) = median;
+  output(3) = q05;
+  output(4) = q95;
+  output(5) = log_bayes_factor;
+  output(6) = alpha;
+  output(7) = beta;
+
+  return output;
   
 }
 

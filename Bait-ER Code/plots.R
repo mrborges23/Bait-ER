@@ -47,7 +47,7 @@ plot_posterior_sigma <- function(post_sigma){
   y <- dgamma(x,shape=alpha,rate=beta)
   
   # Plotting the posterior disitrbution of sigma
-  plot(x-1,y,type="l",ylab="posterior probabilities",col="gray",main="Posterior distribution of sigma",xlab="sigma")
+  plot(x-1,y,type="l",ylab="posterior density",col="red",main="Posterior distribution of sigma",xlab="sigma")
   abline(v=0,col="blue",lty=2)
 
   # Plotting the summary statistics

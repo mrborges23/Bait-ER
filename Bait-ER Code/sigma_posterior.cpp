@@ -1,7 +1,6 @@
 // [[Rcpp::depends(RcppArmadillo)]]
 #include <RcppArmadillo.h>
 #include <log_posterior.cpp>
-#include <quantile_interpolation.cpp>
 
 using namespace arma;
 using namespace Rcpp;
@@ -49,7 +48,7 @@ List sigma_posterior(double N, vec time, int number_time_points, int number_repl
   for (int i =0; i < grid.n_elem; i++){
     log_likelihood(i) = log_posterior(N,grid(i),trajectories_matrix,number_replicates,number_time_points,time,prior_parameters);
   }
-  
+   
   vec xi = grid + 1.0;
   vec yi = log_likelihood;
   
