@@ -35,7 +35,7 @@ reads               <- allele_trajectory_simulator(Ne,sigma,times,prob_vector_in
 N                   <- 300
 trajectories_matrix <- reads_to_moran_states(N,reads) 
 number_time_points  <- length(times)
-prior_parameters    <- c(1,rate[i])
+prior_parameters    <- c(0.001,0.001)
 post_sigma          <- sigma_posterior(N,times,number_time_points,number_replicates,trajectories_matrix,prior_parameters)
 
 # plots virtual trajectories and the posterior of sigma (along with some summary statistics)
