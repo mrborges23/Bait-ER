@@ -72,7 +72,8 @@ List sigma_posterior(double N, vec time, int number_time_points, int number_repl
   double median            = R::qgamma(0.50,alpha,1/beta,1,0)-1;
   double q05               = R::qgamma(0.05,alpha,1/beta,1,0)-1;
   double q95               = R::qgamma(0.95,alpha,1/beta,1,0)-1;
-  double log_bayes_factor  = R::pgamma(1,alpha,1/beta,0,1) - R::pgamma(1,alpha,1/beta,1,1);
+  double log_bayes_factor  = R::pgamma(1,alpha,1/beta,0,1) - R::pgamma(1,alpha,1/beta,1,1)- 
+                             R::pgamma(1,prior_parameters(0),1/prior_parameters(1),0,1) + R::pgamma(1,prior_parameters(0),1/prior_parameters(1),1,1);
  
   // exports posterior statistics as a list
   return List::create(Named("mean")              = mean,
