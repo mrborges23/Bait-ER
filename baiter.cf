@@ -1,0 +1,9 @@
+Sync_file	data_sync.txt
+Header	1
+Columns_order	0
+Number_replicates	12
+Time_points	0,6,12,18
+Number_loci	99
+Population_size	300
+Prior_parameters 0.001,0.001
+Output_file	output.txt
