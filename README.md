@@ -45,10 +45,10 @@ If the compilation proceeds without errors, you should have created an executabl
 Sync files are specified in Kofler et al. (2011). Sync files contain 3 + n columns with column 1 indicating the chromosome (reference contig), column 2 the indicating position (in the reference contig) and column 3 indicating the reference allele. The following n columns have the sync entries for each replicate and time point in the form of `A:T:C:G:N:deletion` counts. Sync files originally do not have a header but headers are accepted when specified in the control file (value `1`).
 
 ```
-chr    pos    ref    R1_T0    R2_T0    R3_T0    R4_T0
-chrI    3049    A    233:70:0:0:0:0    233:70:0:0:0:0    233:70:0:0:0:0    233:70:0:0:0:0
-chrI    3056    C    67:0:0:236:0:0    67:0:0:236:0:0    67:0:0:236:0:0    67:0:0:236:0:0
-chrI    3141    C    0:84:0:282:0:0    0:84:0:282:0:0    0:84:0:282:0:0    0:84:0:282:0:0
+chr  pos  ref R1_T0          R2_T0          R3_T0          R4_T0
+chrI 3049 A   233:70:0:0:0:0 233:70:0:0:0:0 233:70:0:0:0:0 33:70:0:0:0:0
+chrI 3056 C   67:0:0:236:0:0 67:0:0:236:0:0 67:0:0:236:0:0 67:0:0:236:0:0
+chrI 3141 C   0:84:0:282:0:0 0:84:0:282:0:0 0:84:0:282:0:0 0:84:0:282:0:0
 ```
 
 ## Control file
@@ -86,10 +86,10 @@ The output file has information about the posterior of sigma per locus. The outp
 The output for the first three loci of the example.txt data is is the following:
 
 ```
-chromosome    position    sigma    logBFs    alpha    beta
-chrI    3049    -0.0129154    -1.57228    5229.56    5297.98
-chrI    3056    -0.0184936    -2.37067    5312.73    5412.84
-chrI    3141    -0.00926782    -1.08498    5035.45    5082.55
+chromosome position sigma      logBFs   alpha   beta
+chrI       3049     -0.0129154 -1.57228 5229.56 5297.98
+chrI       3056     -0.0184936 -2.37067 5312.73 5412.84
+chrI       3141     -0.0092678 -1.08498 5035.45 5082.55
 ```
 
 Alpha and beta can be used to estimate other quantities of interest regarding the posterior distribution of sigma: quantiles, intervals of confidence, etc. For doing that one can use the gamma function in R. For example, we want a confidence interval at 95% for sigma in position 444, one can simply type in R:
