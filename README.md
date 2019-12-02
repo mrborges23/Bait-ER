@@ -140,9 +140,3 @@ Please use **Issues** to report possible bugs, suggest enhancement features or i
 ## License
 
 This program is free software. You can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software. See the GNU General Public License (http://www.gnu.org/licenses/) for more details.
-
-
-Looking forward seeing you in Vienna next year.
-
-Best wishes,
-Carolin
