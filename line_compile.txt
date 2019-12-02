@@ -1,3 +1,0 @@
-g++ bait_er.cpp -o test -O2 -std=c++14 -llapack -lblas -larmadillo
-locate libmkl_rt.so
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/rui/anaconda2/lib/
