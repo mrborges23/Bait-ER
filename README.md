@@ -42,7 +42,7 @@ If the compilation proceeds without errors, you should have created an executabl
 
 ## Sync file
 
-Sync files are specified in Kofler et al. (2011). Sync files contain \(3 + n\) columns with column 1 indicating the chromosome (reference contig), column 2 the indicating position (in the reference contig) and column 3 indicating the reference allele. The following \(n\) columns have the sync entries for each replicate and time point in the form of `A:T:C:G:N:deletion` counts. Sync files originally do not have a header but headers are accepted when specified in the control file (value `1`).
+Sync files are specified in Kofler et al. (2011). Sync files contain 3 + n columns with column 1 indicating the chromosome (reference contig), column 2 the indicating position (in the reference contig) and column 3 indicating the reference allele. The following n columns have the sync entries for each replicate and time point in the form of `A:T:C:G:N:deletion` counts. Sync files originally do not have a header but headers are accepted when specified in the control file (value `1`).
 
 ```
 chr  pos  ref R1_T0          R2_T0          R3_T0          R4_T0
@@ -63,7 +63,7 @@ The control file includes all the necessary parameter to run Bait-ER:
 |`Number_replicates`|The number of replicates| |
 |`Time_points` |The vector of time points. Their values should be separated by commas. | Be careful for not introducing any space or other characters after or before the comma.|
 |`Number_loci` |The number of loci in the sync file.| |
-|`Population_size` |The effective population size. |This can be estimated by other methods: e.g. Agnes paper here. |
+|`Population_size` |The effective population size. |This can be estimated by other methods (e.g. Jónás et al. (2016)). |
 |`Prior_parameters`|The prior parameters alpha and beta of a gamma distribution. These are the parameters of the gamma distribution that models the distribution sigma. | These parameters should be small enough. Simulations conducted by us showed that values smaller or equal than 0.001 are unlike to over influence the posterior for the generality of E&R experimental designs. |
 |`Output_file`|The name of the output file. ||
 
@@ -103,7 +103,12 @@ qgamma(0.95,rate,scale)  # upper bound
 
 One can conclude that sigma is between [,] with 95% probability. 
 
+## References
 
+*
+Jónás, Taus, Kosiol, Schlötterer and Futschik (2016) Estimating the effective population size from temporal allele frequency changes in experimental evolution. Genetics 204(2):723-735
+
+* Kofler, Pandey, Schlötterer (2011b) PoPoolation2: identifying differentiation between populations using sequencing of pooled DNA samples (Pool-Seq). Bioinformatics 27(24):3435–3436
 
 
 ## Version 
