@@ -42,7 +42,7 @@ If the compilation proceeds without errors, you should have created an executabl
 
 ## Sync file
 
-Sync files are specified in Kofler et al. (2011). Sync files contain $3 + n$ columns with column 1 indicating the chromosome (reference contig), column 2 the indicating position (in the reference contig) and column 3 indicating the reference allele. The following $n$ columns have the sync entries for each replicate and time point in the form of `A:T:C:G:N:deletion` counts. Sync files originally do not have a header but headers are accepted when specified in the control file (value `1`).
+Sync files are specified in Kofler et al. (2011). Sync files contain \(3 + n\) columns with column 1 indicating the chromosome (reference contig), column 2 the indicating position (in the reference contig) and column 3 indicating the reference allele. The following \(n\) columns have the sync entries for each replicate and time point in the form of `A:T:C:G:N:deletion` counts. Sync files originally do not have a header but headers are accepted when specified in the control file (value `1`).
 
 ```
 chr  pos  ref R1_T0          R2_T0          R3_T0          R4_T0
