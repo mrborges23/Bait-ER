@@ -103,7 +103,7 @@ qgamma(0.95,shape=shape,rate=rate)-1  # upper bound
 [1] 0.009644153
 ```
 
-One can conclude that sigma is between [-0.035,0.009] with 95% probability, which includes 0 (i.e. neutral evolution). This result is in line with the logBF on the table, that for being close to zero, is not suggesting that this position constitutes a target of selection. The absolute value of the logBFs can be use to conclude whether a single locus in evolves under netruality or selection:
+One can conclude that sigma is between [-0.035,0.009] with 95% probability, which includes 0 (i.e. neutral evolution). This result is in line with the logBF on the table, that for being close to zero, is not suggesting that this position constitutes a target of selection. The absolute value of the logBFs can be used to conclude whether a single locus in evolves under neutrality or selection:
 
 |logBF|Evidence for selection|
 |--- |--- |
