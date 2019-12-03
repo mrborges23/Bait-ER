@@ -80,7 +80,7 @@ int main (){
   // output file
   ofstream outFile;
   outFile.open (output_file);
-  outFile << "chromosome\tposition\tsigma\tlogBFs\talpha\tbeta\n";
+  outFile << "chromosome\tposition\tsigma\tlogBF\talpha\tbeta\n";
 
   //useful variables
   int cols   = n_replicates*n_time_points+3;
