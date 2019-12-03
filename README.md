@@ -53,6 +53,8 @@ If the compilation proceeds without errors, you should have created an executabl
 
 Sync files are specified in Kofler et al. (2011). Sync files contain 3 + n columns with column 1 indicating the chromosome (reference contig), column 2 the indicating position (in the reference contig) and column 3 indicating the reference allele. The following n columns have the sync entries for each replicate and time point in the form of `A:T:C:G:N:deletion` counts. Sync files originally do not have a header but headers are accepted when specified in the control file (value `1`).
 
+An example sync file with 99 loci is provided to test Bait-ER. This data was taken from Burke et al. (2014):
+
 ```
 chr  pos  ref R1_T0          R2_T0          R3_T0          R4_T0
 chrI 3049 A   233:70:0:0:0:0 233:70:0:0:0:0 233:70:0:0:0:0 33:70:0:0:0:0
@@ -126,6 +128,8 @@ Since the E&R studies include thousands to millions of loci, we need to be a lit
 
 
 ## References
+
+* Burke, Liti and Long (2014) Standing genetic variation drives repeatable experimental evolution in outcrossing populations of saccharomyces cerevisiae. Molecular Biology and Evolution 31(12): 3228–3239
 
 * Jónás, Taus, Kosiol, Schlötterer and Futschik (2016) Estimating the effective population size from temporal allele frequency changes in experimental evolution. Genetics 204(2):723-735
 
