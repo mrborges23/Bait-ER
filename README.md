@@ -1,7 +1,16 @@
 # Bait-ER
 
-A fully Bayesian approach to estimate selection coefficients from Evolve-and-Resequence allele trajectories.
+A fully Bayesian approach to estimate selection coefficients from Evolve-and-Resequence time series data.
 
+
+## Version 
+
+0.1 (December 2019)
+
+
+## Citation
+
+Soonish
 
 ## Download and compile Bait-ER
 
@@ -92,7 +101,7 @@ chrI       3056     -0.0184936 -2.37067 5312.73 5412.84
 chrI       3141     -0.0092678 -1.08498 5035.45 5082.55
 ```
 
-Alpha and beta can be used to estimate other quantities of interest regarding the posterior distribution of sigma (or more correctly, 1 + sigma, the distribution of fitness): quantiles, intervals of confidence, etc. To do so, one can use the gamma function in `R`. For example, if we want a 95% credibility interval for sigma at position 3049, one can simply type in R:
+Alpha and beta can be used to estimate other quantities of interest regarding the posterior distribution of sigma (or more correctly, 1 + sigma, the distribution of fitness): quantiles, credibility intervals, etc. To do so, one can use the `qgamma` function in `R`. For example, if we want a 95% credibility interval for sigma at position 3049 of chromosome I, one can simply type in `R`:
 
 ```
 shape <- 5229.56 # shape parameter 
@@ -103,7 +112,7 @@ qgamma(0.95,shape=shape,rate=rate)-1  # upper bound
 [1] 0.009644153
 ```
 
-One can conclude that sigma is between [-0.035,0.009] with 95% probability, which includes 0 (i.e. neutral evolution). This result is in line with the logBF on the table, that for being close to zero, is not suggesting that this position constitutes a target of selection. The absolute value of the logBFs can be used to conclude whether a single locus in evolves under neutrality or selection:
+Sigma varies between [-0.035,0.009] with 95% probability, which includes 0 (i.e. neutral evolution). This result is in line with the logBF on the output table, that for being close to zero, is not suggesting that this position constitutes a target of selection. The absolute value of the logBFs can be used to conclude whether a single locus in evolves under neutrality or selection, just like the log(p-value) used to build the standard Manhattan plots.
 
 |&#124; logBF &#124;|Evidence for selection|
 |--- |--- |
@@ -113,23 +122,14 @@ One can conclude that sigma is between [-0.035,0.009] with 95% probability, whic
 |1.10 to 2.30|Moderate |
 |0 to 1.10|Anecdotal |
 
-However, since the E&R studies include thousands to millions of loci, we need to be a little bit more stringent about these thresholds and thus on the loci that we consider to be targets of selection.
+Since the E&R studies include thousands to millions of loci, we need to be a little bit more stringent about these thresholds and thus on the loci that we consider to be targets of selection.
+
 
 ## References
 
 * Jónás, Taus, Kosiol, Schlötterer and Futschik (2016) Estimating the effective population size from temporal allele frequency changes in experimental evolution. Genetics 204(2):723-735
 
 * Kofler, Pandey, Schlötterer (2011) PoPoolation2: identifying differentiation between populations using sequencing of pooled DNA samples (Pool-Seq). Bioinformatics 27(24):3435–3436
-
-
-## Version 
-
-0.0 (December 2019)
-
-
-## Citation
-
-Soonish
 
 
 ## Questions and bug reporting
