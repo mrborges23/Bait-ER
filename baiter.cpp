@@ -28,9 +28,9 @@ double dbinom(double k,double N, double p);
 
 
 
-int main (){
+int main (int argc, char *argv[]){
 
-  ifstream control("baiter.cf");
+  ifstream control(argv[1]);
   
   string name;
 
