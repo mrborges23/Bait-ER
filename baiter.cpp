@@ -30,8 +30,17 @@ double dbinom(double k,double N, double p);
 
 int main (int argc, char *argv[]){
 
+  // some output
+  cout << "\n\n  You are running Bait-ER!\n \n" << "  Please do not forget to cite us: \n \n" << "  If you find bugs, please report them on our github branch: \n   - github.com/mrborges23/Bait-ER\n \n";   
+
+
   ifstream control(argv[1]);
-  
+
+  if (!control.is_open()) {
+    cerr << "  Unable to open " << argv[1] << ". \n \n" << endl;
+    return 1;
+  }
+
   string name;
 
   //these are to be inputed by the user
@@ -72,9 +81,7 @@ int main (int argc, char *argv[]){
   // vector of prior parameters
   vec prior_parameters = vec(prior_vector);
 
-  // some output
-  cout << "\n\n  You are running Bait-ER!\n \n" << "  Please do not forget to cite us: \n \n" << "  If you find one or more bugs, please report it on our github branch: \n   - github.com/mrborges23/Bait-ER\n \n";   
-
+  
   cout << "  Information received: \n   - sync file:                 " << sync_file <<"\n   - number loci:               " << n_loci << "\n   - number replicates:         " << n_replicates << "\n   - time points:               " << time_points << "\n   - number time points:        " << n_time_points << "\n   - effective population size: " << N << "\n   - prior parameters:          " << prior_vector << "\n\n";
 
   // output file
