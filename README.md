@@ -21,7 +21,7 @@ First of all, we need to download all the necessary files to compile and run Bai
 git clone https://github.com/mrborges23/Bait-ER.git Bait-ER
 ```
 
-Before compiling Bait-ER, we need to make sure that some packages are installed in your machine. Bait-ER uses `armadillo`, which requires packages like `LAPACK`, `boost` and `BLAS`. You can simply run the following commands:
+Before compiling Bait-ER, we need to make sure that some packages are installed in your machine. Bait-ER uses `armadillo`, which requires packages like `LAPACK`, `boost` and `BLAS`. You can simply run the following commands (same applies to Mac OS X but using `brew`):
 
 
 ```
@@ -35,10 +35,10 @@ Bait-ER is coded in C++ and needs to be compiled. To do that, you can type the f
 
 
 ```
-g++ main.cpp -o baiter -O2 -std=c++14 -llapack -lblas -larmadillo
+g++ baiter.cpp -o baiter -O2 -std=c++14 -llapack -lblas -larmadillo
 ```
 
-You may get the error that some libraries (e.g. `libhdf5.so`) are missing. You can solve this problem by finding the location of the missing files and adding them to the `$LD_LIBRARY_PATH path`. An example:
+You may get the message that some libraries (e.g. `libhdf5.so`) are missing. You can solve this problem by finding the location of the missing files and adding them to the `$LD_LIBRARY_PATH path`. An example:
 
 
 ```
@@ -81,13 +81,13 @@ The control file includes all the necessary parameter to run Bait-ER:
 
 ## Running Bait-ER
 
-Once you have your sync and control files on the same folder as the baiter executable, you can open the terminal and run the executable:
+Once you have your sync and control files on the same folder as the `baiter` executable, you can open the terminal and run the executable followed by the name of the control file:
 
 ```
-./baiter 
+./baiter baiter.cf
 ```
 
-Bait-ER will immediately output some information. Confirm that this information conforms your control and sync file. To make sure Bait-ER is running, you should get the message `Bait-ER has started!`. When the analyses are done, you should get the message `Bait-ER has finished!`. Notice, that Bait-ER periodically writes of the `output_file`. To check whether your analysis is frozen, you can simply check if the output has been updating. 
+Bait-ER will immediately output some information. Confirm that this information conforms your control and sync file. To make sure Bait-ER is running, you should get the message `Bait-ER has started!`. When the analyses are done, you should get the message `Bait-ER has finished!`. Notice, that Bait-ER periodically writes of the `output_file`.
 
 
 ## Output file
