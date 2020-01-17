@@ -390,6 +390,7 @@ vec sigma_posterior2(double N, vec time, int number_time_points, int number_repl
   if (sd_sigma < 0.001) {
     sd_sigma = 0.001;
   }
+  
 
   // fit the gamma distribution
   vec grid;
