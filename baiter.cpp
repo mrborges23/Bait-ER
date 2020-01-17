@@ -379,7 +379,7 @@ vec sigma_posterior2(double N, vec time, int number_time_points, int number_repl
   double sd_sigma = mean(mean(abs(increments-m_sigma)));
   
   // sometimes de emprirical variance gets too small and numerical problems 
-  // on fiting alpha a beta ( alpha negative or beta null) 
+  // on fiting alpha a beta (e.g. alpha is negative or beta is null) 
   if (sd_sigma < 0.001) {
     sd_sigma = 0.001;
   }
