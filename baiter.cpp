@@ -128,7 +128,7 @@ int main (int argc, char *argv[]){
 
             istringstream ss(C[j]);
             string token;
-
+            
             Col<int> counts(4);
 
             for (int k = 0; k < 4; k++){
@@ -377,18 +377,24 @@ vec sigma_posterior2(double N, vec time, int number_time_points, int number_repl
   // calculates the empirical average and sd of sigma
   double m_sigma  = mean(mean(increments));
   double sd_sigma = mean(mean(abs(increments-m_sigma)));
+  
+  // sometimes de emprirical variance gets too small and numerical problems 
+  // on fiting alpha a beta ( alpha negative or beta null) 
+  if (sd_sigma < 0.001) {
+    sd_sigma = 0.001;
+  }
 
   // fit the gamma distribution
   vec grid;
   grid << m_sigma-2*sd_sigma << m_sigma-sd_sigma << m_sigma << m_sigma+sd_sigma << m_sigma+2*sd_sigma ;
-  
+
   // calculate the log_likelihood
 
   vec log_likelihood(grid.n_elem);
   for (int i =0; i < grid.n_elem; i++){
     log_likelihood(i) = log_posterior(N,grid(i),trajectories_matrix,number_replicates,number_time_points,time,prior_parameters);
   }
-  
+
   vec xi = grid + 1.0;
   vec yi = log_likelihood;
   
@@ -406,11 +412,12 @@ vec sigma_posterior2(double N, vec time, int number_time_points, int number_repl
   double alpha  = -((-(-si2-si4)*si4-si6-si7)*(si1*si1-si8)-(-si3-si1*(-si2-si4)-si5)*(si1*si4-si5))/d;
   double beta   = -(si3*si4*si4-si2*si5*si4-si1*si6*si4+si5*si6+si1*si2*si7-si3*si7)/d;
 
+
   // posterior statistics
   double mean              = alpha/beta-1;
   double log_bayes_factor  = log(boost::math::gamma_q(alpha,beta)) - log(boost::math::gamma_p(alpha,beta)); 
   //+                          log(boost::math::gamma_p(prior_parameters(0),prior_parameters(1))) - log(boost::math::gamma_q(prior_parameters(0),prior_parameters(1)));
-
+  
   // exports posterior statistics as a vector
   vec output(4);
   output(0) = mean;
