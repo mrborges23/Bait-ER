@@ -87,7 +87,7 @@ int main (int argc, char *argv[]){
   // output file
   ofstream outFile;
   outFile.open (output_file);
-  outFile << "chromosome\tposition\tsigma\tlogBF\talpha\tbeta\n";
+  outFile << "chromosome\tposition\treference\tsigma\tlogBF\talpha\tbeta\n";
 
   //useful variables
   int cols   = n_replicates*n_time_points+3;
@@ -102,8 +102,9 @@ int main (int argc, char *argv[]){
   Col<int> allele_counts = zeros<Col<int>>(n_replicates*n_time_points);
   Col<int> total_counts  = zeros<Col<int>>(n_replicates*n_time_points);
 
+  //bases
+  char nuc_bases[] = "ATCG";
 
-  
   //opens sync file
   //checks whether sync file is open
   ifstream inFile;
@@ -164,12 +165,12 @@ int main (int argc, char *argv[]){
             allele_counts(j-3) = counts(indices(0));
             total_counts(j-3)  = counts(indices(0)) + counts(indices(1));
         }
-    }
+      }
 
     mat trajectories_matrix = counts_to_moran_states(allele_counts,total_counts,n_time_points,n_replicates,N,order);
     vec output = sigma_posterior2(N,time,n_time_points,n_replicates,trajectories_matrix,prior_parameters);
 
-    outFile << C[0] << "\t" << C[1] << "\t" << output(0) << "\t" << output(1) << "\t" << output(2) << "\t" << output(3) << "\n"; 
+    outFile << C[0] << "\t" << C[1] << "\t" << nuc_bases[indices(0)] << "\t" << output(0) << "\t" << output(1) << "\t" << output(2) << "\t" << output(3) << "\n"; 
   }
 
   // close in and output files

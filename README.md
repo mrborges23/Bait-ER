@@ -92,15 +92,15 @@ Bait-ER will immediately output some information. Confirm that this information 
 
 ## Output file
 
-The output file has information about the posterior of sigma per locus. The output file has six columns with the following order: chromosome, position, average sigma, log Bayes factor (for the hypothesis that sigma is different from 0), and the posterior values of alpha and beta (also know as shape and rate parameters). 
+The output file has information about the posterior of sigma per locus. The output file has six columns with the following order: chromosome, position, reference, average sigma, log Bayes factor (for the hypothesis that sigma is different from 0), and the posterior values of alpha and beta (also know as shape and rate parameters). The reference column reports the reference allele for which sigma was calculated, not the refence allele indicated on the `sync_file`.
 
 The output for the first three loci of the example.txt data is the following:
 
 ```
-chromosome position sigma      logBF    alpha   beta
-chrI       3049     -0.0129154 -1.57228 5229.56 5297.98
-chrI       3056     -0.0184936 -2.37067 5312.73 5412.84
-chrI       3141     -0.0092678 -1.08498 5035.45 5082.55
+chromosome position reference  sigma      logBF    alpha   beta
+chrI       3049     A          -0.0129154 -1.57228 5229.56 5297.98
+chrI       3056     G          -0.0184936 -2.37067 5312.73 5412.84
+chrI       3141     G          -0.0092678 -1.08498 5035.45 5082.55
 ```
 
 Alpha and beta can be used to estimate other quantities of interest regarding the posterior distribution of sigma (or more correctly, 1 + sigma, the distribution of fitness): quantiles, credibility intervals, etc. To do so, one can use the `qgamma` function in `R`. For example, if we want a 95% credibility interval for sigma at position 3049 of chromosome I, one can simply type in `R`:
