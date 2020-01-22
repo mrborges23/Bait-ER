@@ -421,6 +421,36 @@ vec sigma_posterior2(double N, vec time, int number_time_points, int number_repl
   double alpha  = -((-(-si2-si4)*si4-si6-si7)*(si1*si1-si8)-(-si3-si1*(-si2-si4)-si5)*(si1*si4-si5))/d;
   double beta   = -(si3*si4*si4-si2*si5*si4-si1*si6*si4+si5*si6+si1*si2*si7-si3*si7)/d;
 
+  // another step to avoid numerical problems
+  if (alpha < 0) {
+
+    sd_sigma = 0.01;
+
+    grid << m_sigma-2*sd_sigma << m_sigma-sd_sigma << m_sigma << m_sigma+sd_sigma << m_sigma+2*sd_sigma ;
+
+    // calculate the log_likelihood
+    for (int i =0; i < grid.n_elem; i++){
+      log_likelihood(i) = log_posterior(N,grid(i),trajectories_matrix,number_replicates,number_time_points,time,prior_parameters);
+    }
+
+    xi = grid + 1.0;
+    yi = log_likelihood;
+  
+    si1 = arma::mean(xi);
+    si2 = arma::mean(yi);
+    si3 = arma::mean(xi%yi);
+    si4 = arma::mean(log(xi));
+    si5 = arma::mean(xi%log(xi));
+    si6 = arma::mean(yi%log(xi));
+    si7 = arma::mean(log(xi)%log(xi));
+    si8 = arma::mean(xi%xi);
+
+    // least square estimates of alpha and beta
+    d      =  (si7*si1*si1-2*si4*si5*si1+si5*si5+si4*si4*si8-si7*si8);
+    alpha  = -((-(-si2-si4)*si4-si6-si7)*(si1*si1-si8)-(-si3-si1*(-si2-si4)-si5)*(si1*si4-si5))/d;
+    beta   = -(si3*si4*si4-si2*si5*si4-si1*si6*si4+si5*si6+si1*si2*si7-si3*si7)/d;
+
+  }
 
   // posterior statistics
   double mean              = alpha/beta-1;
