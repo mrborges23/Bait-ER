@@ -103,7 +103,7 @@ int main (int argc, char *argv[]){
   Col<int> total_counts  = zeros<Col<int>>(n_replicates*n_time_points);
 
   //bases
-  char nuc_bases[] = "ATCG";
+  char nuc_bases[] = "ATCGND";
 
   //opens sync file
   //checks whether sync file is open
@@ -170,7 +170,7 @@ int main (int argc, char *argv[]){
     mat trajectories_matrix = counts_to_moran_states(allele_counts,total_counts,n_time_points,n_replicates,N,order);
     vec output = sigma_posterior2(N,time,n_time_points,n_replicates,trajectories_matrix,prior_parameters);
 
-    outFile << C[0] << "\t" << C[1] << "\t" << nuc_bases[indices(0)] << "\t" << output(0) << "\t" << output(1) << "\t" << output(2) << "\t" << output(3) << "\n"; 
+    outFile << C[0] << "\t" << C[1] << "\t" << nuc_bases[indices(0)] << nuc_bases[indices(1)] << "\t" << output(0) << "\t" << output(1) << "\t" << output(2) << "\t" << output(3) << "\n"; 
   }
 
   // close in and output files
