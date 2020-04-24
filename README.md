@@ -51,7 +51,7 @@ If the compilation proceeds without errors, you should have created an executabl
 
 ## Sync file
 
-Sync files are specified in Kofler et al. (2011). Sync files contain 3 + n columns with column 1 indicating the chromosome (reference contig), column 2 the indicating position (in the reference contig) and column 3 indicating the reference allele. The following n columns have the sync entries for each replicate and time point in the form of `A:T:C:G:N:deletion` counts. Sync files originally do not have a header but headers are accepted when specified in the control file (value `1`).
+Sync files are specified in Kofler et al. (2011). Sync files contain 3 + n columns with column 1 indicating the chromosome (reference contig), column 2 the indicating position (in the reference contig) and column 3 indicating the reference allele. The following n columns have the sync entries for each replicate and time point in the form of `A:T:C:G:N:deletion` counts. Sync files originally do not have a header, but headers are accepted when specified in the control file (value `1`).
 
 An example sync file with 99 loci is provided to test Bait-ER. This data was taken from Burke et al. (2014):
 
@@ -75,7 +75,7 @@ The control file includes all the necessary parameter to run Bait-ER:
 |`Time_points` |The vector of time points. Their values should be separated by commas. | Be careful for not introducing any space or other characters after or before the comma.|
 |`Number_loci` |The number of loci in the sync file.| |
 |`Population_size` |The effective population size. |This can be estimated by other methods (e.g. Jónás et al. (2016)). |
-|`Prior_parameters`|The prior parameters alpha and beta of a gamma distribution. These are the parameters of the gamma distribution that models the distribution sigma. | These parameters should be small enough. Simulations conducted by us showed that values smaller or equal than 0.001 are unlike to over influence the posterior for the generality of E&R experimental designs. |
+|`Prior_parameters`|The prior parameters alpha and beta of a gamma distribution. These are the parameters of the gamma distribution that models the distribution sigma. | These parameters should be small enough. Simulations conducted by us showed that values around 0.001 are unlike to overinfluence the posterior for the generality of E&R experimental designs. |
 |`Output_file`|The name of the output file. ||
 
 
@@ -87,12 +87,12 @@ Once you have your sync and control files on the same folder as the `baiter` exe
 ./baiter baiter.cf
 ```
 
-Bait-ER will immediately output some information. Confirm that this information conforms your control and sync file. To make sure Bait-ER is running, you should get the message `Bait-ER has started!`. When the analyses are done, you should get the message `Bait-ER has finished!`. Notice, that Bait-ER periodically writes of the `output_file`.
+Bait-ER will immediately output some information. Confirm that this information conforms to your control and sync file. To make sure Bait-ER is running, you should get the message `Bait-ER has started!`. When the analyses are done, you should get the message `Bait-ER has finished!`. Notice, that Bait-ER periodically writes of the `output_file`.
 
 
 ## Output file
 
-The output file has information about the posterior of sigma per locus. The output file has six columns with the following order: chromosome, position, reference, average sigma, log Bayes factor (for the hypothesis that sigma is different from 0), and the posterior values of alpha and beta (also know as shape and rate parameters). The reference column reports the reference allele for which sigma was calculated, not the refence allele indicated on the `sync_file`.
+The output file has information about the posterior of sigma per locus. The output file has six columns with the following order: chromosome, position, reference, average sigma, log Bayes factor (for the hypothesis that sigma is different from 0), and the posterior values of alpha and beta (also known as shape and rate parameters). The reference column reports the reference allele for which sigma was calculated, not the reference allele indicated on the `sync_file`.
 
 The output for the first three loci of the example.txt data is the following:
 
@@ -114,17 +114,9 @@ qgamma(0.95,shape=shape,rate=rate)-1  # upper bound
 [1] 0.009644153
 ```
 
-Sigma varies between [-0.035,0.009] with 95% probability, which includes 0 (i.e. neutral evolution). This result is in line with the logBF on the output table, that for being close to zero, is not suggesting that this position constitutes a target of selection. The absolute value of the logBFs can be used to conclude whether a single locus in evolves under neutrality or selection, just like the log(p-value) used to build the standard Manhattan plots.
+Sigma varies between [-0.035,0.009] with 95% probability, which includes 0 (i.e. neutral evolution). This result is in line with the logBF on the output table, which by being close to zero is not suggesting that this loci constitutes a target of selection. The absolute value of the logBFs can be used to conclude whether a single locus in evolves under neutrality or selection, just like the log(p-value) used to build the standard Manhattan plots.
 
-|&#124; logBF &#124;|Evidence for selection|
-|--- |--- |
-|higher than 4.61|Decisive |
-|3.40 to 4.61|Very strong |
-|2.30 to 3.40|Strong |
-|1.10 to 2.30|Moderate |
-|0 to 1.10|Anecdotal |
-
-Since the E&R studies include thousands to millions of loci, we need to be a little bit more stringent about these thresholds and thus on the loci that we consider to be targets of selection.
+Since the E&R studies include thousands to millions of loci, we need to be a little bit more stringent about the BFs thresholds to use to select targets of selection. Plese read next section for more information on how to properly correct BFs with Bait-ER.
 
 ## A note on BFs thresholds
 
@@ -148,7 +140,7 @@ If we consider that an E&R experiment should have 0.1% expected loci under selec
 
 ## Questions and bug reporting
 
-Please use **Issues** to report possible bugs, suggest enhancement features or if you need help using Bait-ER. If you have more theoretical or biological questions, you can directly contact Rui Borges (ruiborges23@gmail.com) or Carolina Barata (cdcbrb@st-andrews.ac.uk).
+Please use **Issues** to report possible bugs, suggest enhancement features, or if you need help using Bait-ER. If you have more theoretical or biological questions, you can directly contact Rui Borges (ruiborges23@gmail.com) or Carolina Barata (cdcbrb@st-andrews.ac.uk).
 
 
 ## License
