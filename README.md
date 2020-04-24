@@ -126,6 +126,14 @@ Sigma varies between [-0.035,0.009] with 95% probability, which includes 0 (i.e.
 
 Since the E&R studies include thousands to millions of loci, we need to be a little bit more stringent about these thresholds and thus on the loci that we consider to be targets of selection.
 
+## A note on BFs thresholds
+
+To infer the genomic response to adaptation, Bait-ER employs multiple tests for a set of thousands of millions of loci throughout the genome. Multiple testing is prone to false positives, and we advise the users of Bait-ER to correct their BFs with proper multiple testing correction strategies. In particular, we recommend the strategy proposed by Wellcome Trust Case Control Consortium (2007). Their correction requires that we have an idea of the fraction <img src="https://render.githubusercontent.com/render/math?math=F"> of loci under selection. Then, we set an aimed power of the test <img src="https://render.githubusercontent.com/render/math?math=P"> and the odds <img src="https://render.githubusercontent.com/render/math?math=O"> in favor of a true positive to a false positive. These three quantities can be translated into a BF that serves as a threshold for picking targets of selection:
+
+<img src="https://render.githubusercontent.com/render/math?math=BF_T=\log \left( \frac{O}{PF}-1 \right)">
+
+If we consider that an E&R experiment should have 0.1% expected loci under selection, and set an aimed power of 0.5 and odds favoring true positives over false positives of 10, we calculate a corrected BF of 9.9. This threshold is considerably more restrictive than the typical thresholds used in standard Bayesian applications, where BFs higher than 3.4 represent already very strong evidence in favor of the tested hypothesis. 
+
 
 ## References
 
@@ -134,6 +142,8 @@ Since the E&R studies include thousands to millions of loci, we need to be a lit
 * Jónás, Taus, Kosiol, Schlötterer and Futschik (2016) Estimating the effective population size from temporal allele frequency changes in experimental evolution. Genetics 204(2):723-735
 
 * Kofler, Pandey, Schlötterer (2011) PoPoolation2: identifying differentiation between populations using sequencing of pooled DNA samples (Pool-Seq). Bioinformatics 27(24):3435–3436
+
+* Wellcome Trust Case Control Consortium (2007) Genome-wide association study of 14,000 cases of seven common diseases and 3,000 shared controls. Nature 447(7145):661-78
 
 
 ## Questions and bug reporting
