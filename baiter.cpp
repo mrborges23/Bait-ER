@@ -47,7 +47,7 @@ double dbinom(double k,double C, double p);
 int main (int argc, char *argv[]){
 
   // some output
-  cout << "\n\n  You are running Bait-ER!\n \n" << "  Please do not forget to cite us: \n \n" << "  If you find bugs, please report them on our github branch: \n   - github.com/mrborges23/Bait-ER\n \n";   
+  cout << "\n  You are running Bait-ER!\n \n" << "  Please do not forget to cite us: \n \n" << "  If you find bugs, please report them on our GitHub: \n   - github.com/mrborges23/Bait-ER\n \n";   
 
 
   ifstream control(argv[1]);
@@ -102,11 +102,29 @@ int main (int argc, char *argv[]){
   ifstream inFile;
   inFile.open(sync_file, ios::in);
   if (! inFile) {
-    cerr << "Bait-ER did not find " << sync_file << ". Make sure you have " << sync_file << " in the working directory." << endl;
+    cerr << "  Bait-ER could not find " << sync_file << ". Make sure you have " << sync_file << " in the working directory." << endl;
     return 1;
   }
 
+  // checks whether the number of replicates and time points respect 
+  // the number of columns in the sync file
+  string line,value;
+  getline(inFile, line);         
+  stringstream s;
+  s << line;                   
+  int n_cols = 0;    
+  while(s >> value) { 
+    n_cols++; 
+  }
+  inFile.close();
+  if (n_replicates*n_time_points != (n_cols-3) ) {
+    cerr << "  Unexpected number of columns in the sync file.\n  Make sure that your sync file has 3+n_replicates*n_time_points columns. \n" << endl;
+    return 1;
+  }
+
+
   //skip the first row if there is an header
+  inFile.open(sync_file, ios::in);
   string H[n_replicates*n_time_points+3];
   if (header == 1){
     for(int j = 0; j < (n_replicates*n_time_points+3); j++){
@@ -114,7 +132,7 @@ int main (int argc, char *argv[]){
     }
   }
 
-  cout << "  Bait-ER has started!\n\n";
+  cout << "  Bait-ER has started!\n";
 
   // some useful variables
   string info1; 
@@ -364,7 +382,15 @@ void sigma_posterior2( mat &trajectories_matrix, string &info) {
   if (sd_sigma < 0.001) {
     sd_sigma = 0.001;
   }
+  // code ready to exclud
+  if (sd_sigma < 0.001) {
+  	info = "\tNA\tNA\tNA\tNA"; 
+    return;
+  }
   */
+
+
+
 
   // fit the gamma distribution
   vec grid;
