@@ -51,15 +51,15 @@ If the compilation proceeds without errors, you should have created an executabl
 
 ## Sync file
 
-Sync files are specified in Kofler et al. (2011). Sync files contain 3 + n columns with column 1 indicating the chromosome (reference contig), column 2 the indicating position (in the reference contig) and column 3 indicating the reference allele. The following n columns have the sync entries for each replicate and time point in the form of `A:T:C:G:N:deletion` counts. Sync files originally do not have a header, but headers are accepted when specified in the control file (value `1`).
+Sync files are specified in Kofler et al. (2011). Sync files contain <img src="https://render.githubusercontent.com/render/math?math=3+n">  columns with column 1 indicating the chromosome (reference contig), column 2 the indicating position (in the reference contig) and column 3 indicating the reference allele. The following <img src="https://render.githubusercontent.com/render/math?math=n">  columns have the sync entries for each replicate and time point in the form of `A:T:C:G:N:deletion` counts. Sync files originally do not have a header, but headers are accepted when specified in the control file (value `1`).
 
 An example sync file with 99 loci is provided to test Bait-ER. This data was taken from Burke et al. (2014):
 
 ```
-chr  pos  ref R1_T0          R2_T0          R3_T0          R4_T0
-chrI 3049 A   233:70:0:0:0:0 233:70:0:0:0:0 233:70:0:0:0:0 33:70:0:0:0:0
-chrI 3056 C   67:0:0:236:0:0 67:0:0:236:0:0 67:0:0:236:0:0 67:0:0:236:0:0
-chrI 3141 C   0:84:0:282:0:0 0:84:0:282:0:0 0:84:0:282:0:0 0:84:0:282:0:0
+chr  pos  ref  T0_R1           T0_R2           T0_R3           T0_R4	
+2L   59   T    0:64:12:0:0:0   0:68:20:0:0:0   0:82:32:0:0:0   0:64:20:0:0:0
+2L   62   A    70:0:13:0:0:0   69:0:21:0:0:0   90:0:32:0:0:0   67:0:22:0:0:0
+2L   153  A    112:0:28:0:0:0  108:0:26:0:0:0  153:0:37:0:0:0  79:0:28:0:0:0
 ```
 
 ## Control file
@@ -75,7 +75,7 @@ The control file includes all the necessary parameter to run Bait-ER:
 |`Time_points` |The vector of time points. Their values should be separated by commas. | Be careful for not introducing any space or other characters after or before the comma.|
 |`Number_loci` |The number of loci in the sync file.| |
 |`Population_size` |The effective population size. |This can be estimated by other methods (e.g. Jónás et al. (2016)). |
-|`Prior_parameters`|The prior parameters alpha and beta of a gamma distribution. These are the parameters of the gamma distribution that models the distribution sigma. | These parameters should be small enough. Simulations conducted by us showed that values around 0.001 are unlike to overinfluence the posterior for the generality of E&R experimental designs. |
+|`Prior_parameters`|The prior parameters <img src="https://render.githubusercontent.com/render/math?math=\alpha"> and <img src="https://render.githubusercontent.com/render/math?math=\beta"> of a gamma distribution. These are the parameters of the gamma distribution that models the distribution of <img src="https://render.githubusercontent.com/render/math?math=\sigma">. | These parameters should be small enough. Simulations conducted by us showed that values around 0.001 are unlike to overinfluence the posterior for the generality of E&R experimental designs. |
 |`Output_file`|The name of the output file. ||
 
 
@@ -92,29 +92,29 @@ Bait-ER will immediately output some information. Confirm that this information 
 
 ## Output file
 
-The output file has information about the posterior of sigma per locus. The output file has six columns with the following order: chromosome, position, reference, average sigma, log Bayes factor (for the hypothesis that sigma is different from 0), and the posterior values of alpha and beta (also known as shape and rate parameters). The reference column reports the reference allele for which sigma was calculated, not the reference allele indicated on the `sync_file`.
+The output file has information about the posterior of <img src="https://render.githubusercontent.com/render/math?math=\sigma"> per locus. The output file has six columns with the following order: chromosome, position, reference, average <img src="https://render.githubusercontent.com/render/math?math=\sigma">, log Bayes factor (for the hypothesis that <img src="https://render.githubusercontent.com/render/math?math=\sigma"> is different from 0), and the posterior values of <img src="https://render.githubusercontent.com/render/math?math=\alpha"> and <img src="https://render.githubusercontent.com/render/math?math=\beta"> (also known as shape and rate parameters). The reference column reports the reference allele for which <img src="https://render.githubusercontent.com/render/math?math=\sigma"> was calculated, not the reference allele indicated on the `sync_file`.
 
 The output for the first three loci of the example.txt data is the following:
 
 ```
-chromosome position reference  sigma      logBF    alpha   beta
-chrI       3049     A          -0.0129154 -1.57228 5229.56 5297.98
-chrI       3056     G          -0.0184936 -2.37067 5312.73 5412.84
-chrI       3141     G          -0.0092678 -1.08498 5035.45 5082.55
+chromosome position  reference  sigma      logBF      alpha         beta
+2L         59        T:C        -0.000202  -0.044448  15511.266710  15514.402451
+2L         62        A:C        -0.000506  -0.105363  15663.110987  15671.040724
+2L         153       A:C        -0.003621  -0.757280  16573.253165  16633.477700
 ```
 
-Alpha and beta can be used to estimate other quantities of interest regarding the posterior distribution of sigma (or more correctly, 1 + sigma, the distribution of fitness): quantiles, credibility intervals, etc. To do so, one can use the `qgamma` function in `R`. For example, if we want a 95% credibility interval for sigma at position 3049 of chromosome I, one can simply type in `R`:
+<img src="https://render.githubusercontent.com/render/math?math=\alpha"> and <img src="https://render.githubusercontent.com/render/math?math=\beta"> can be used to estimate other quantities of interest regarding the posterior distribution of <img src="https://render.githubusercontent.com/render/math?math=\sigma"> (or more correctly, <img src="https://render.githubusercontent.com/render/math?math=1+\sigma">, the fitness distribution): quantiles, credibility intervals, etc. To do so, one can use the `qgamma` function in `R`. For example, if we want a 95% credibility interval for <img src="https://render.githubusercontent.com/render/math?math=\sigma"> at position 59 of chromosome 2L, one can simply type in `R`:
 
 ```R
-shape <- 5229.56 # shape parameter 
-rate  <- 5297.98 # rate parameter
-qgamma(0.05,shape=shape,rate=rate)-1  # lower bound
-[1] -0.03525825
-qgamma(0.95,shape=shape,rate=rate)-1  # upper bound
-[1] 0.009644153
+shape <- 15511.266710                  # shape parameter 
+rate  <- 15514.402451                  # rate parameter
+qgamma(0.05,shape=shape,rate=rate)-1   # lower bound
+[1] -0.01336969
+qgamma(0.95,shape=shape,rate=rate)-1   # upper bound
+[1] 0.01303874
 ```
 
-Sigma varies between [-0.035,0.009] with 95% probability, which includes 0 (i.e. neutral evolution). This result is in line with the logBF on the output table, which by being close to zero is not suggesting that this loci constitutes a target of selection. The absolute value of the logBFs can be used to conclude whether a single locus in evolves under neutrality or selection, just like the log(p-value) used to build the standard Manhattan plots.
+<img src="https://render.githubusercontent.com/render/math?math=\sigma"> varies between [-0.013,0.013] with 95% probability, which includes 0 (i.e. neutral evolution). This result is in line with the logBF on the output table, which by being close to zero, is not suggesting that this loci constitutes a target of selection. The absolute value of the logBFs can be used to conclude whether a single locus in evolves under neutrality or selection, just like the log(p-value) used to build the standard Manhattan plots.
 
 Since the E&R studies include thousands to millions of loci, we need to be a little bit more stringent about the BFs thresholds to use to select targets of selection. Plese read next section for more information on how to properly correct BFs with Bait-ER.
 
