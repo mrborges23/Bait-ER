@@ -53,7 +53,7 @@ If the compilation proceeds without errors, you should have created an executabl
 
 Sync files are specified in Kofler et al. (2011). Sync files contain <img src="https://render.githubusercontent.com/render/math?math=3+n">  columns with column 1 indicating the chromosome (reference contig), column 2 the indicating position (in the reference contig) and column 3 indicating the reference allele. The following <img src="https://render.githubusercontent.com/render/math?math=n">  columns have the sync entries for each replicate and time point in the form of `A:T:C:G:N:deletion` counts. Sync files originally do not have a header, but headers are accepted when specified in the control file (value `1`).
 
-An example sync file with 99 loci is provided to test Bait-ER. This data was taken from Burke et al. (2014):
+An example sync file with 99 loci is provided to test Bait-ER. This data was taken from Barghi et al. (2019):
 
 ```
 chr  pos  ref  T0_R1           T0_R2           T0_R3           T0_R4	
@@ -129,7 +129,7 @@ If we consider that an E&R experiment should have 0.1% expected loci under selec
 
 ## References
 
-* Burke, Liti and Long (2014) Standing genetic variation drives repeatable experimental evolution in outcrossing populations of saccharomyces cerevisiae. Molecular Biology and Evolution 31(12): 3228–3239
+* Barghi, Tobler, Nolte, Jakšić, Mallard, Otte, Dolezal, Taus, Kofler, Schlötterer (2019) Genetic redundancy fuels polygenic adaptation in Drosophila. PLoS Biology 17(2):e3000128
 
 * Jónás, Taus, Kosiol, Schlötterer and Futschik (2016) Estimating the effective population size from temporal allele frequency changes in experimental evolution. Genetics 204(2):723-735
 
