@@ -165,6 +165,9 @@ int main (int argc, char *argv[]){
   inFile.close();
   outFile.close();
 
+
+
+
   // final message
   cout << "  Bait-ER has finished! You can now analyse your output file: " << output_file << ".\n\n";
 
@@ -583,28 +586,33 @@ void read_sync_file_line(ifstream &inFile, string &info, Col<int> &allele_counts
 
   }
 
+  // sums the counts per allele
+  // sorts the counts
   Row<int> sum_row = sum(counts_matrix,0);
-
-  //uvec test_biallelic = find(sum_row > 0);
-
-  // tests if the site
-  // 0: has no counts for any of the nucleotide bases
-  // 1: is monomorphic
-  // 2: is biallelic
-  // 3: is triallelic
 
   uvec sort_sum_row = sort_index(sum_row);
     
-  // Finds the two alleles that have the 
-  char a1,a2;
-  a1 = sort_sum_row(3);
-  a2 = sort_sum_row(2);
+  // if the site is biallelic (most of them)
+  string s1,s2;
+  s1 = nuc_bases[sort_sum_row(3)];     
+  s2 = nuc_bases[sort_sum_row(2)];
+
+  // if the site is triallelic
+  if (sum_row(sort_sum_row(1)) >1){
+    s2 = s2 + nuc_bases[sort_sum_row(1)];
+  }
+
+  // if the site is triallelic
+  if (sum_row(sort_sum_row(0)) >1){
+    s2 = s2 + nuc_bases[sort_sum_row(0)];
+  }
+
 
   //cout << chromosome << " " << position << " " << nuc_bases[a1] << nuc_bases[a2] << " ";
 
-  info = chromosome + "\t" + position + "\t" + nuc_bases[a1] + ":" + nuc_bases[a2];   
+  info = chromosome + "\t" + position + "\t" + s1 + ":" + s2;   
   // fills the total coverage and the allele coverage matrices
-  allele_counts = counts_matrix.col(a1);
+  allele_counts = counts_matrix.col(sort_sum_row(3));
   total_counts  = sum(counts_matrix,1);
 
 }
