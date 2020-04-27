@@ -114,9 +114,13 @@ qgamma(0.95,shape=shape,rate=rate)-1   # upper bound
 [1] 0.01303874
 ```
 
-<img src="https://render.githubusercontent.com/render/math?math=\sigma"> varies between [-0.013,0.013] with 95% probability, which includes 0 (i.e. neutral evolution). This result is in line with the logBF on the output table, which by being close to zero, is not suggesting that this loci constitutes a target of selection. The absolute value of the logBFs can be used to conclude whether a single locus in evolves under neutrality or selection, just like the log(p-value) used to build the standard Manhattan plots.
+<img src="https://render.githubusercontent.com/render/math?math=\sigma"> varies between [-0.013,0.013] with 95% probability, which includes 0 (i.e. neutral evolution). This result is in line with the logBF on the output table, which by being close to zero, is not suggesting that this loci constitutes a target of selection. 
 
-Since the E&R studies include thousands to millions of loci, we need to be a little bit more stringent about the BFs thresholds to use to select targets of selection. Plese read next section for more information on how to properly correct BFs with Bait-ER.
+The absolute value of the logBFs can be used to conclude whether a single locus in evolves under neutrality or selection, just like the log(p-value) used to build the standard Manhattan plots. An example for the chromosome 2L of hot-adapted D. simulans poopulations follows (Barghi et al. 2019):
+
+![Manhattan_plot](https://github.com/mrborges23/Bait-ER/blob/master/Manhattan_plot.jpeg)
+
+Statistical signifiance is also assessed via the Bfs; however, the standard BF thresholds a quite relaxed (e.g., log(99)). Since the E&R studies include thousands to millions of loci, we need to be a little bit more stringent about the BFs thresholds to use to select targets of selection. Plese read next section for more information on how to properly correct BFs with Bait-ER.
 
 ## A note on BFs thresholds
 
