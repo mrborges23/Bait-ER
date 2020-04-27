@@ -51,7 +51,7 @@ If the compilation proceeds without errors, you should have created an executabl
 
 ## Sync file
 
-Sync files are specified in Kofler et al. (2011). Sync files contain <img src="https://render.githubusercontent.com/render/math?math=3+n">  columns with column 1 indicating the chromosome (reference contig), column 2 the indicating position (in the reference contig) and column 3 indicating the reference allele. The following <img src="https://render.githubusercontent.com/render/math?math=n">  columns have the sync entries for each replicate and time point in the form of `A:T:C:G:N:deletion` counts. Sync files originally do not have a header, but headers are accepted when specified in the control file (value `1`).
+Sync files are specified in Kofler et al. (2011). Sync files contain <img src="https://render.githubusercontent.com/render/math?math=3 + n">  columns with column 1 indicating the chromosome (reference contig), column 2 the indicating position (in the reference contig) and column 3 indicating the reference allele. The following <img src="https://render.githubusercontent.com/render/math?math=n">  columns have the sync entries for each replicate and time point in the form of `A:T:C:G:N:deletion` counts. Sync files originally do not have a header, but headers are accepted when specified in the control file (value `1`).
 
 An example sync file with 99 loci is provided to test Bait-ER. This data was taken from Barghi et al. (2019):
 
