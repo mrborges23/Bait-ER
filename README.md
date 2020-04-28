@@ -100,9 +100,11 @@ The absolute value of the logBFs (fifth columns) can be used to conclude whether
 
 Statistical significance is also assessed via the Bfs; however, the standard BF thresholds a quite relaxed (e.g., log(99)). Since the E&R studies include thousands to millions of loci, we need to be a little bit more stringent about the BFs thresholds to use to select targets of selection. Please read the section * A note on BFs thresholds* for more information on how to correct BFs with Bait-ER properly.
 
-## What is the use of <img src="https://render.githubusercontent.com/render/math?math=\alpha"> and <img src="https://render.githubusercontent.com/render/math?math=\beta">
+## Estimating other statistics of interest for the selection coefficients
 
-<img src="https://render.githubusercontent.com/render/math?math=\alpha"> and <img src="https://render.githubusercontent.com/render/math?math=\beta"> can be used to estimate other quantities of interest regarding the posterior distribution of <img src="https://render.githubusercontent.com/render/math?math=\sigma"> (or more correctly, <img src="https://render.githubusercontent.com/render/math?math=1+\sigma">, the fitness distribution): quantiles, credibility intervals, etc. To do so, one can use the `qgamma` function in `R`. For example, if we want a 95% credibility interval for <img src="https://render.githubusercontent.com/render/math?math=\sigma"> at position 59 of chromosome 2L (check the output file for the values of <img src="https://render.githubusercontent.com/render/math?math=\alpha">  and <img src="https://render.githubusercontent.com/render/math?math=\beta">  in this position), one can simply type in `R`:
+Bait-ER exports the two statistics that are needed to perform inferences: the average of <img src="https://render.githubusercontent.com/render/math?math=\sigma">  and the log BFs (fourth and fifth columns). However, we also output the shape and rate (<img src="https://render.githubusercontent.com/render/math?math=\alpha"> and <img src="https://render.githubusercontent.com/render/math?math=\beta">) parameters of the posterior gamma distribution of <img src="https://render.githubusercontent.com/render/math?math=\sigma">, which can be used to calculate other quantities of interest (quantiles, credibility intervals, etc). The gamma distribution is defined over the fitness domain: i.e., 1 + <img src="https://render.githubusercontent.com/render/math?math=\sigma">, so be carefull to substract 1 whenever you want to report a statistic for <img src="https://render.githubusercontent.com/render/math?math=\sigma"> . 
+
+To calculate additional statistics one can use the `qgamma` function in `R`. For example, if we want a 95% credible interval for <img src="https://render.githubusercontent.com/render/math?math=\sigma"> at position 59 of chromosome 2L (check the output file for the values of <img src="https://render.githubusercontent.com/render/math?math=\alpha"> and <img src="https://render.githubusercontent.com/render/math?math=\beta">  in this position), one can simply use these `R` commands:
 
 ```R
 shape <- 15511.266710                  # shape parameter 
@@ -113,8 +115,7 @@ qgamma(0.95,shape=shape,rate=rate)-1   # upper bound
 [1] 0.01303874
 ```
 
-<img src="https://render.githubusercontent.com/render/math?math=\sigma"> varies between [-0.013,0.013] with 95% probability, which includes 0 (i.e. neutral evolution). This result is in line with the logBF on the output table, which by being close to zero, is not suggesting that this loci constitute a target of selection. 
-
+<img src="https://render.githubusercontent.com/render/math?math=\sigma"> varies between [-0.013,0.013] with 95% probability, which includes 0 (i.e. neutral evolution). This result is in line with the logBF on the output table, which by being close to zero, is not suggesting that this loci constitutes a target of selection. 
 
 ## A note on BFs thresholds
 
