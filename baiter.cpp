@@ -379,18 +379,14 @@ void sigma_posterior2( mat &trajectories_matrix, string &info) {
   
   //cout << m_sigma << " " << sd_sigma << " "; 
 
-  // sometime_vectors de emprirical variance gets too small and numerical problems 
-  // on fiting alpha and beta arise (e.g. alpha is negative or beta is null) 
-  /*
-  if (sd_sigma < 0.001) {
-    sd_sigma = 0.001;
-  }
-  // code ready to exclud
+  // sometimes the emprirical variance gets too small and numerical problems arise in estimating alpha and beta
+  // this is because there is not enough statistical variability: i.e., the trajectories are just too flat
+  //such a problem occurs when sd_sigma < 0.001
   if (sd_sigma < 0.001) {
   	info = "\tNA\tNA\tNA\tNA"; 
     return;
   }
-  */
+
 
 
 
