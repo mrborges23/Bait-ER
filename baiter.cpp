@@ -47,8 +47,13 @@ double dbinom(double k,double C, double p);
 int main (int argc, char *argv[]){
 
   // some output
-  cout << "\n  You are running Bait-ER!\n \n" << "  Please do not forget to cite us: \n \n" << "  If you find bugs, please report them on our GitHub: \n   - github.com/mrborges23/Bait-ER\n \n";   
+  cout << "\n  You are running Bait-ER!\n \n" << "  Please do not forget to cite us:\n \n" << "  If you find bugs, please report them on our GitHub: \n   github.com/mrborges23/Bait-ER\n \n";   
 
+  string sync_file;
+  string output_file;
+
+  string time_points;
+  string prior_vector;
 
   ifstream control(argv[1]);
 
@@ -57,30 +62,43 @@ int main (int argc, char *argv[]){
     return 1;
   }
 
-  string name;
-
-  //these are to be inputed by the user
+  // these are to be inputed by the user
   // name of sync_file
   // order of counts in important: check again
   // n_replicates and loci
 
-  string sync_file;
-  string output_file;
-
-  string time_points;
-  string prior_vector;
+  string name;
+  string error_message = "  Make sure your control file is correctly formatted.\n\n";// A example control file can be found here: https://github.com/mrborges23/Bait-ER/blob/master/baiter.cf\n\n";
 
   control >> name >> sync_file;
+  if (name != "Sync_file"){ cout << error_message; return 1; }
+
   control >> name >> header;  
+  if (name != "Header"){ cout << error_message; return 1;  }
+
   control >> name >> order;
+  if (name != "Columns_order"){ cout << error_message; return 1;  }
+
   control >> name >> n_replicates;
+  if (name != "Number_replicates"){ cout << error_message; return 1;  }
+
   control >> name >> time_points;
+  if (name != "Time_points"){ cout << error_message;  return 1; }
+
   control >> name >> n_loci;
+  if (name != "Number_loci"){ cout << error_message; return 1;  }
+
   control >> name >> N;
+  if (name != "Population_size"){ cout << error_message; return 1;  }
+
   control >> name >> prior_vector;
+  if (name != "Prior_parameters"){ cout << error_message;  return 1; }
+
   control >> name >> output_file;
+  if (name != "Output_file"){ cout << error_message;  return 1; }
 
   control.close();
+
 
   // vector time and n_time_points
   time_vector = vec(time_points);
@@ -90,7 +108,7 @@ int main (int argc, char *argv[]){
   prior_parameters = vec(prior_vector);
 
   // some info is printed in the terminal
-  cout << "  Information received: \n   - sync file:                 " << sync_file <<"\n   - number loci:               " << n_loci << "\n   - number replicates:         " << n_replicates << "\n   - time points:               " << time_points << "\n   - number time points:        " << n_time_points << "\n   - effective population size: " << N << "\n   - prior parameters:          " << prior_vector << "\n\n";
+  cout << "  Information received: \n   sync file:                 " << sync_file <<"\n   number loci:               " << n_loci << "\n   number replicates:         " << n_replicates << "\n   time points:               " << time_points << "\n   number time points:        " << n_time_points << "\n   effective population size: " << N << "\n   prior parameters:          " << prior_vector << "\n\n";
 
   // output file
   ofstream outFile;
@@ -612,9 +630,6 @@ void read_sync_file_line(ifstream &inFile, string &info, Col<int> &allele_counts
   total_counts  = sum(counts_matrix,1);
 
 }
-
-
-
 
 
 /*
