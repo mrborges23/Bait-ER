@@ -70,6 +70,10 @@ The control file includes all the necessary parameter to run Bait-ER:
 |`Output_file`| The name of the output file. ||
 
 
+There are two situations where erroneous inputs in the control file may not lead `Bait-ER` to stop or returns errors, so that we ask users to be particularly careful:  
+* The `Header` field indicates the existence of a header in the sync file. If this is not the case, the very first locus will just be excluded from the analyses. 
+* Ensure the index in the `Column_order` field matches the time points and replicates order in our sync file. Bait-ER is not able to tell whether the time points and replicates are all misplaced and runs normally.
+
 ## Running Bait-ER
 
 Place your sync and control files on the same folder that has the Bait-ER executable. Then, open the terminal and run the executable `baiter` followed by the name of the control file:
@@ -98,11 +102,17 @@ The absolute value of the logBFs (fifth columns) can be used to conclude whether
 
 ![Manhattan_plot](https://github.com/mrborges23/Bait-ER/blob/master/Manhattan_plot.jpeg)
 
-Statistical significance is also assessed via the Bfs; however, the standard BF thresholds a quite relaxed (e.g., log(99)). Since the E&R studies include thousands to millions of loci, we need to be a little bit more stringent about the BFs thresholds to use to select targets of selection. Please read the section * A note on BFs thresholds* for more information on how to correct BFs with Bait-ER properly.
+Statistical significance is also assessed via the Bfs; however, the standard BF thresholds a quite relaxed (e.g., log(99)). Since the E&R studies include thousands to millions of loci, we need to be a little bit more stringent about the BFs thresholds to use to select targets of selection. Please read the section *A note on BFs thresholds* for more information on how to correct BFs with Bait-ER properly.
+
+The output file may sometimes return rows with NA for columns representing <img src="https://render.githubusercontent.com/render/math?math=\sigma">, <img src="https://render.githubusercontent.com/render/math?math=\log BF">, <img src="https://render.githubusercontent.com/render/math?math=\alpha">, and <img src="https://render.githubusercontent.com/render/math?math=\beta">:
+```
+2L	759	C:A	NA	NA	NA	NA
+```
+These loci correspond to flat trajectories that change very little or do not vary at all during the experiment. Such an output can be interpreted as data being essentially constant to perform statistical inferences. 
 
 ## Estimating other statistics of interest for the selection coefficients
 
-Bait-ER exports the two statistics that are needed to perform inferences: the average of <img src="https://render.githubusercontent.com/render/math?math=\sigma">  and the log BFs (fourth and fifth columns). However, we also output the shape and rate (<img src="https://render.githubusercontent.com/render/math?math=\alpha"> and <img src="https://render.githubusercontent.com/render/math?math=\beta">) parameters of the posterior gamma distribution of <img src="https://render.githubusercontent.com/render/math?math=\sigma">, which can be used to calculate other quantities of interest (quantiles, credibility intervals, etc). The gamma distribution is defined over the fitness domain: i.e., 1 + <img src="https://render.githubusercontent.com/render/math?math=\sigma">, so be carefull to substract 1 whenever you want to report a statistic for <img src="https://render.githubusercontent.com/render/math?math=\sigma"> . 
+Bait-ER exports the two statistics that are needed to perform inferences: the average of <img src="https://render.githubusercontent.com/render/math?math=\sigma">  and the log BFs (fourth and fifth columns). However, we also output the shape and rate (<img src="https://render.githubusercontent.com/render/math?math=\alpha"> and <img src="https://render.githubusercontent.com/render/math?math=\beta">) parameters of the posterior gamma distribution of <img src="https://render.githubusercontent.com/render/math?math=\sigma">, which can be used to calculate other quantities of interest (quantiles, credibility intervals, etc). The gamma distribution is defined over the fitness domain: i.e., 1 + <img src="https://render.githubusercontent.com/render/math?math=\sigma">, so be carefull to substract 1 whenever you want to report a statistic for <img src="https://render.githubusercontent.com/render/math?math=\sigma">. 
 
 To calculate additional statistics one can use the `qgamma` function in `R`. For example, if we want a 95% credible interval for <img src="https://render.githubusercontent.com/render/math?math=\sigma"> at position 59 of chromosome 2L (check the output file for the values of <img src="https://render.githubusercontent.com/render/math?math=\alpha"> and <img src="https://render.githubusercontent.com/render/math?math=\beta">  in this position), one can simply use these `R` commands:
 
