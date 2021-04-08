@@ -2,6 +2,8 @@
 
 A fully Bayesian approach to estimate selection coefficients from Evolve-and-Resequence time series data.
 
+![baiter_logo](https://github.com/mrborges23/Bait-ER/blob/master/baiter_logo.png)
+
 
 ## Version 
 
@@ -10,7 +12,8 @@ A fully Bayesian approach to estimate selection coefficients from Evolve-and-Res
 
 ## Citation
 
-Soonish
+Barata, Borges and Kosiol (2020) Bait-ER: a Bayesian method to detect targets of selection in Evolve-and-Resequence experiments. bioRxiv  DOI: https://doi.org/10.1101/2020.12.15.422880
+
 
 ## Download and compile Bait-ER
 
