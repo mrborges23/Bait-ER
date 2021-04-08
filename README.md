@@ -2,7 +2,7 @@
 
 A fully Bayesian approach to estimate selection coefficients from Evolve-and-Resequence time series data.
 
-<img src="https://github.com/mrborges23/Bait-ER/blob/master/baiter_logo.png" alt="drawing" width="200"/>
+<img src="https://github.com/mrborges23/Bait-ER/blob/master/baiter_logo.png" alt="drawing" width="350"/>
 
 
 ## Version 
