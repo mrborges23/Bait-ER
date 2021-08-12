@@ -71,6 +71,7 @@ The control file includes all the necessary parameter to run Bait-ER:
 |`Time_points` | The vector of time points in generations: commas should separate these values. | Be careful not to introduce any space or other characters after or before the comma. |
 |`Number_loci` | The number of loci in the sync file. | |
 |`Population_size` |The effective population size. | The effective population size can be estimated by other methods: e.g., Jónás et al. (2016). |
+|`Sampling_correction` |The sampling correction for the observed counts. | The sampling correction can be either done using the binomial (value `0`) or the negative binomial distribution (value `1`). |
 |`Prior_parameters`| The vector of prior parameters: commas should separate these values. The prior parameters <img src="https://render.githubusercontent.com/render/math?math=\alpha"> and <img src="https://render.githubusercontent.com/render/math?math=\beta"> (also known as shape and rate parameters) set a prior gamma distribution on <img src="https://render.githubusercontent.com/render/math?math=\sigma">. | Simulations conducted by us showed that values around 0.001 are unlike to overinfluence the posterior, for the generality of E&R experimental designs. |
 |`Output_file`| The name of the output file. ||
 

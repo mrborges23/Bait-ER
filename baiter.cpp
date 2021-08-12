@@ -6,7 +6,7 @@
 #include <armadillo>
 
 #include <boost/math/special_functions/gamma.hpp>
-#include <boost/math/special_functions/binomial.hpp>
+//#include <boost/math/special_functions/.hpp>
 
 using namespace std;
 using namespace arma;
@@ -19,7 +19,8 @@ char nuc_bases[] = "ATCGND";
 int n_replicates;
 int n_time_points;
 int n_loci;
-int header;  
+int header; 
+int sampling_method; 
 int order;
 
 double N;
@@ -39,8 +40,10 @@ double log_likelihood_trajectories  (double &sigma, mat &trajectories_matrix);
 double log_posterior                (double &sigma, mat &trajectories_matrix);
 void   sigma_posterior2             (mat &trajectories_matrix, string &info);
 
-// functions for gamma and binomial distributions
+// functions for the binomial and negative binomial distributions
 double dbinom(double k,double C, double p);
+double dnegbinom(double k,double C, double p);
+int binomialCoeff(int n, int k);
 
 
 
@@ -91,6 +94,9 @@ int main (int argc, char *argv[]){
   control >> name >> N;
   if (name != "Population_size"){ cout << error_message; return 1;  }
 
+  control >> name >> sampling_method;
+  if (name != "Sampling_correction"){ cout << error_message;  return 1; }
+
   control >> name >> prior_vector;
   if (name != "Prior_parameters"){ cout << error_message;  return 1; }
 
@@ -108,7 +114,7 @@ int main (int argc, char *argv[]){
   prior_parameters = vec(prior_vector);
 
   // some info is printed in the terminal
-  cout << "  Information received: \n   sync file:                 " << sync_file <<"\n   number loci:               " << n_loci << "\n   number replicates:         " << n_replicates << "\n   time points:               " << time_points << "\n   number time points:        " << n_time_points << "\n   effective population size: " << N << "\n   prior parameters:          " << prior_vector << "\n\n";
+  cout << "  Information received: \n   sync file:                 " << sync_file << "\n   number loci:               " << n_loci << "\n   number replicates:         " << n_replicates << "\n   time points:               " << time_points << "\n   number time points:        " << n_time_points << "\n   effective population size: " << N << "\n   sampling method:           " << sampling_method << "\n   prior parameters:          " << prior_vector << "\n\n";
 
   // output file
   ofstream outFile;
@@ -159,6 +165,7 @@ int main (int argc, char *argv[]){
   Col<int> allele_counts(n_replicates*n_time_points);
   Col<int> total_counts(n_replicates*n_time_points);
   mat allele_trajectories((N+1)*n_replicates,n_time_points);
+
   //reads sync file line by line
   for(int i = 0; i < n_loci; i++){
     
@@ -322,6 +329,7 @@ double log_likelihood_trajectories( double &sigma,  mat &trajectories_matrix) {
   mat prob_matrix_keeper((N+1)*number_unique_increments,N+1);
   for (int i=0; i < number_unique_increments; i++){
       double delta = unique_increments(i);
+      //rate_matrix.print();
       prob_matrix_keeper(span(i*N+i,(i+1)*N+i),span(0,N)) = expmat(rate_matrix*delta).t();
       indexes.elem(find(increments == delta)) += i;
   }
@@ -391,10 +399,13 @@ void sigma_posterior2( mat &trajectories_matrix, string &info) {
     }
   }
   
+  //trajectories_matrix.print();
+  //increments.print();
+
   // calculates the empirical average and sd of sigma
   double m_sigma  = mean(mean(increments));
   double sd_sigma = mean(mean(abs(increments-m_sigma)));
-  
+
   //cout << m_sigma << " " << sd_sigma << " "; 
 
   // sometimes the emprirical variance gets too small and numerical problems arise in estimating alpha and beta
@@ -559,12 +570,29 @@ void counts_to_moran_states(mat &allele_trajectories, Col<int> &allele_counts, C
 
 void moran_states_distribution(vec &moran_distribution,  double &allele_coverage, double &total_coverage) {
   
-  // populates the moran distribution using the inverse binomial sampling
-  for (int i=0; i<(N+1) ;i++){
-    moran_distribution(i) = dbinom(allele_coverage,total_coverage,i/N);
+  // populates the moran distribution using the binomial or negative binomial sampling
+  if (sampling_method == 0){
+    for (int i=0; i<(N+1) ;i++){
+      moran_distribution(i) = dbinom(allele_coverage,total_coverage,i/N);
+    }
+  } else if (sampling_method == 1) {
+    for (int i=0; i<(N+1) ;i++){
+      moran_distribution(i) = dnegbinom(allele_coverage,total_coverage,i/N);
+    }
   }
-  
+
   moran_distribution = moran_distribution/sum(moran_distribution);
+
+  /*
+  // round to five decimal places
+  // avoids numerical problem when calculating the exponential matrix
+  moran_distribution.elem( find(moran_distribution < 0.00001) ).zeros();
+  moran_distribution = moran_distribution/sum(moran_distribution);
+
+  if ( moran_distribution.has_nan() ) {
+    cout << "ac: " << allele_coverage << "tc: " << total_coverage << "\n";
+  }
+  */
 
 }
 
@@ -637,7 +665,37 @@ void read_sync_file_line(ifstream &inFile, string &info, Col<int> &allele_counts
 */
 
 double dbinom(double k, double C,  double p){
-  double probability = boost::math::binomial_coefficient<double>(C,k)*pow(p,k)*pow(1-p,C-k);
+  double probability = binomialCoeff(C,k)*pow(p,k)*pow(1-p,C-k);
+  return probability;
+
+}
+
+double dnegbinom(double k, double C,  double p){
+  double probability = binomialCoeff(C-1,k-1)*pow(p,k)*pow(1-p,C-k);
   return probability;
 }
 
+int binomialCoeff(int n, int k){
+
+  if (k > n) {
+    return 0;
+  }
+  if (k == 0 || k == n){
+    return 1;
+  }
+
+  int res = 1;
+ 
+  if (k > n - k) {
+    k = n - k;
+  }
+        
+  for (int i = 0; i < k; ++i) {
+    res *= (n - i);
+    res /= (i + 1);
+  }
+ 
+  return res;
+
+}
+ 

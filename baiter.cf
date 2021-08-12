@@ -5,5 +5,6 @@ Number_replicates	10
 Time_points	0,10,20,30,40,50,60
 Number_loci	100
 Population_size	300
+Sampling_correction 0
 Prior_parameters 0.001,0.001
-Output_file	output.txt
+Output_file	output_sampling0.txt
