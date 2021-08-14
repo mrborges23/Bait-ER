@@ -6,7 +6,7 @@
 #include <armadillo>
 
 #include <boost/math/special_functions/gamma.hpp>
-//#include <boost/math/special_functions/.hpp>
+#include <boost/math/special_functions/beta.hpp>
 
 using namespace std;
 using namespace arma;
@@ -42,7 +42,7 @@ void   sigma_posterior2             (mat &trajectories_matrix, string &info);
 
 // functions for the binomial and negative binomial distributions
 double dbinom(double k,double C, double p);
-double dnegbinom(double k,double C, double p);
+double dbetabinom(double k,double C, double p);
 int binomialCoeff(int n, int k);
 
 
@@ -577,7 +577,7 @@ void moran_states_distribution(vec &moran_distribution,  double &allele_coverage
     }
   } else if (sampling_method == 1) {
     for (int i=0; i<(N+1) ;i++){
-      moran_distribution(i) = dnegbinom(allele_coverage,total_coverage,i/N);
+      moran_distribution(i) = dbetabinom(allele_coverage,total_coverage,i);
     }
   }
 
@@ -665,13 +665,14 @@ void read_sync_file_line(ifstream &inFile, string &info, Col<int> &allele_counts
 */
 
 double dbinom(double k, double C,  double p){
-  double probability = binomialCoeff(C,k)*pow(p,k)*pow(1-p,C-k);
+  double probability = pow(p,k)*pow(1-p,C-k);
   return probability;
 
 }
 
-double dnegbinom(double k, double C,  double p){
-  double probability = binomialCoeff(C-1,k-1)*pow(p,k)*pow(1-p,C-k);
+double dbetabinom(double k, double C,  double n){
+  double probability = boost::math::beta(k+n+1,C-k+N-n+1)/boost::math::beta(n+1,N-n+1);
+  std::cout << "k: " << k << " C:  " << C << " n: " << n  <<  "\n";
   return probability;
 }
 
